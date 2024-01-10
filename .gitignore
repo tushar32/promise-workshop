@@ -1,7 +1,7 @@
 promise_all/node_modules
-promise_all/.clinic/*
+promise_all/.clinic
 promise_all/iso*
 
 promise_abort/node_modules
-promise_abort/.clinic/*
+promise_abort/.clinic
 promise_abort/iso*
