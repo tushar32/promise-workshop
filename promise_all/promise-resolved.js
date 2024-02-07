@@ -8,7 +8,7 @@ async function handler() {
     function createFetch(delay, signal) {
 
         const promise1 = new Promise((resolve,reject) => {
-              if ( signal.aborted ) return;
+            signal?.throwIfAborted();
 
             const timeout = setTimeout(() => {
                     console.log('createFetch promise in', delay)
