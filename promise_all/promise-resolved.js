@@ -8,24 +8,25 @@ async function handler() {
     function createFetch(delay, signal) {
 
         const promise1 = new Promise((resolve,reject) => {
-            
+              if ( signal.aborted ) return;
+
             const timeout = setTimeout(() => {
                     console.log('createFetch promise in', delay)
                if (delay === 3000) {
-                       reject(new Error('This promise was rejected.'));
-                   controller.abort(); // Abort other promises if this one is rejected
+                     reject(new Error('This promise was rejected.'));
+                     controller.abort(); // Abort other promises if this one is rejected
                    } else {
-                        resolve('resolve after'+ delay)
+                     resolve('resolve after'+ delay)
                    }
                    clearTimeout(timeout);
                 }, delay)
 
-
-                signal.addEventListener('abort',() => {
-
+                const abortListener = ({target}) => {
                   clearTimeout(timeout)
                   reject(new DOMException('Aborted', 'AbortError'));
+                  signal.removeEventListener('abort', abortListener);
                 })
+                signal.addEventListener('abort',abortListener)
         })
         
         return promise1
